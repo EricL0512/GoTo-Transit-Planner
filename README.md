@@ -82,12 +82,22 @@ GoTo-Transit-Planner/
     ├── add_overlap.py
     ├── inject_road_paths.py
     ├── inject_transit_times.py
+    ├── extract_cdta_routes.py  ← (post-hackathon) real CDTA route shapes + stops from GTFS
     └── route_paths.json        ← cached OSRM road geometry
 ```
 
 **To run the app:** open `app/index.html` in any browser. That's it.
 
 **To re-run the data pipeline:** see [`build/README.md`](build/README.md).
+
+### Maintenance updates (Nov 2026)
+
+The app is otherwise as presented at the hackathon. These fixes keep it working after outside services changed:
+
+- **Basemap:** CARTO's free tiles now require an API key, so the map uses Esri's keyless Light/Dark Gray Canvas tiles.
+- **Heatmap plugin:** `leaflet.heat` was loaded unversioned and a breaking 1.0 release stopped the app from rendering; it's now pinned to 0.2.0.
+- **CDTA routes & stops:** the original hand-traced lines and 51 stops were replaced with the actual GTFS route shapes and 44 timepoint stops. To refresh: download [CDTA's GTFS feed](https://www.cdta.org/schedules/google_transit.zip) to `data/gtfs/cdta_gtfs.zip` and run `python build/extract_cdta_routes.py`.
+- **Presentation:** the live-demo slide pointed at an expired hosted link; it now embeds `app/index.html`, with the slide arrows darkened (and the embedded legend raised) so they stay visible over the map.
 
 ---
 

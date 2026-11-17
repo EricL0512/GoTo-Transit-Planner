@@ -24,7 +24,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .nav button{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.08);color:var(--text);font-size:17px;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
 .nav button:hover{background:rgba(255,255,255,0.18)}
 .counter{position:fixed;bottom:26px;left:26px;font-size:11px;color:var(--muted);z-index:999;font-weight:500;letter-spacing:0.06em}
-
+/* Demo slide: arrows stay bottom-right (darkened to show over the light map; the embedded
+   app's legend is raised to clear them), counter moves into the teal title bar */
+body.on-demo .nav button{background:rgba(0,0,0,0.45);color:#fff}
+body.on-demo .nav button:hover{background:rgba(0,0,0,0.65)}
+body.on-demo .counter{top:18px;bottom:auto;left:auto;right:24px;color:rgba(255,255,255,0.75)}
 /* Shared */
 .crit-num{font-size:clamp(16px,2vw,24px);font-weight:700;color:var(--teal);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .crit-num::after{content:'';flex:1;height:2px;background:rgba(1,105,111,0.25);border-radius:2px}
@@ -274,8 +278,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     </div>
   </div>
   <div style="flex:1;position:relative">
-    <iframe src="https://sites.pplx.app/sites/proxy/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcmVmaXgiOiJ3ZWIvZGlyZWN0LWZpbGVzL2NvbXB1dGVyLzJhNGFhODU4LTNiZjUtNDc3ZS1iMDVjLTFmZTg0ZmE4M2QzOC9odi1hY2Nlc3MtbWFwLyIsInNpZCI6IjJhNGFhODU4LTNiZjUtNDc3ZS1iMDVjLTFmZTg0ZmE4M2QzOCIsImV4cCI6MTc3NTQwOTM3OH0.jHfvTMe200wPH--8vCrMYGL5YGSo868f1nfwUFMaoKY/web/direct-files/computer/2a4aa858-3bf5-477e-b05c-1fe84fa83d38/hv-access-map/index.html"
-      style="width:100%;height:100%;border:none;display:block" title="GoTo Platform" allowfullscreen loading="lazy"></iframe>
+    <iframe src="../app/index.html"
+      style="width:100%;height:100%;border:none;display:block" title="GoTo Platform" allowfullscreen loading="lazy"
+      onload="try{const s=this.contentDocument.createElement('style');s.textContent='.map-legend{bottom:72px!important}';this.contentDocument.head.appendChild(s)}catch(e){}"></iframe>
 
   </div>
 </div>
@@ -373,6 +378,7 @@ function prevSlide(){if(cur>0)goTo(cur-1);}
 function updateUI(){
   document.getElementById('counter').textContent=(cur+1)+' / '+total;
   document.getElementById('progress').style.width=((cur+1)/total*100)+'%';
+  document.body.classList.toggle('on-demo',slides[cur].id==='s6');
 }
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ')nextSlide();
